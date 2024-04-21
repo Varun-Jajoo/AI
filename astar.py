@@ -44,6 +44,7 @@ def construct_path(path, start, goal):
 #     'F': {}
 # }
 
+# For tree
 graph = {
     'A': {'B': 1, 'C': 2},
     'B': {'D': 3, 'E': 4},
