@@ -1,7 +1,7 @@
 import heapq
 
 
-def astar(graph, start, goal, heuristic, cost):
+def astar(graph, start, goal, heuristic):
     visited = set()
     priority_queue = [(heuristic[start], 0, start)]  # Priority queue sorted by f-value (heuristic + cost)
     path_cost = {start: 0}
@@ -44,38 +44,46 @@ def construct_path(path, start, goal):
 #     'F': {}
 # }
 
-# For tree
+# graph = {
+#     'A': {'B': 1, 'C': 2},
+#     'B': {'D': 3, 'E': 4},
+#     'C': {'F': 1},
+#     'D': {},
+#     'E': {},
+#     'F': {}
+# }
+
 graph = {
-    'A': {'B': 1, 'C': 2},
-    'B': {'D': 3, 'E': 4},
-    'C': {'F': 1},
-    'D': {},
-    'E': {},
-    'F': {}
+    'A': {'B': 2, 'E': 3},
+    'B': {'C': 1, 'G': 9},
+    'C': {},
+    'D': {'G':1},
+    'E': {'D':6},
+    'G': {}
 }
 
 start_node = input("Enter the start node: ").upper()
 goal_node = input("Enter the goal node: ").upper()
 
+# heuristic = {
+#     'A': 3,
+#     'B': 2,
+#     'C': 4,
+#     'D': 1,
+#     'E': 1,
+#     'F': 0
+# }
+
 heuristic = {
-    'A': 3,
-    'B': 2,
-    'C': 4,
+    'A': 11,
+    'B': 6,
+    'C': 99,
     'D': 1,
-    'E': 1,
-    'F': 0
+    'E': 7,
+    'G': 0
 }
 
-cost = {
-    'A': 0,
-    'B': 1,
-    'C': 2,
-    'D': 3,
-    'E': 4,
-    'F': 1 # 1 for tree 5 for graph
-}
-
-astar_path = astar(graph, start_node, goal_node, heuristic, cost)
+astar_path = astar(graph, start_node, goal_node, heuristic)
 print()
 if astar_path:
     print('Path:', astar_path)
