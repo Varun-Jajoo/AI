@@ -1,41 +1,41 @@
 from collections import deque
+
 def bfs(graph, start, goal):
-    queue = deque([start])
+    open_list = deque([start])
+    closed_list = set()
     visited = {start: None}
 
-    while queue:
-        node = queue.popleft()
-        if node == goal:
-            return construct_path(visited, start, goal)
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                visited[neighbor] = node
-                queue.append(neighbor)
+    while open_list:
+        current_node = open_list.popleft()
+        print(f"Current Node: {current_node}")
+        print(f"Open List: {list(open_list)}")
+        print(f"Closed List: {list(closed_list)}")
+        print()
+
+        if current_node == goal:
+            return construct_path(visited, goal)
+
+        closed_list.add(current_node)
+
+        for neighbor in graph[current_node]:
+            if neighbor not in closed_list and neighbor not in open_list:
+                visited[neighbor] = current_node
+                open_list.append(neighbor)
+
     return None
 
-def construct_path(visited, start, goal):
+def construct_path(visited, goal):
     path = []
     while goal is not None:
         path.append(goal)
         goal = visited[goal]
     return list(reversed(path))
 
-#FOR GRAPH
-# graph = {
-#     'A': ['B', 'C'],
-#     'B': ['D', 'E'],
-#     'C': ['F'],
-#     'D': [],
-#     'E': ['F'],
-#     'F': []
-# }
-
-#FOR TREE
 graph = {
     'A': ['B', 'C','D'],
     'B': ['E', 'F'],
     'C': ['G','H'],
-    'D':[''],
+    'D':[],
     'E':[],
     'F':[],
     'G':[],
