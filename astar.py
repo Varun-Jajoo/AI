@@ -1,6 +1,5 @@
 import heapq
 
-
 def astar(graph, start, goal, heuristic):
     visited = set()
     priority_queue = [(heuristic[start], 0, start)]  # Priority queue sorted by f-value (heuristic + cost)
@@ -15,12 +14,13 @@ def astar(graph, start, goal, heuristic):
             return construct_path(path, start, goal)
 
         visited.add(current_node)
-        for neighbor, edge_cost in graph[current_node].items():
+        print("CLOSED LIST:",visited)
+        for n, edge_cost in graph[current_node].items():
             total_cost = path_cost[current_node] + edge_cost
-            if neighbor not in visited or total_cost < path_cost[neighbor]:
-                path_cost[neighbor] = total_cost
-                heapq.heappush(priority_queue, (total_cost + heuristic[neighbor], total_cost, neighbor))
-                path[neighbor] = current_node
+            if n not in visited or total_cost < path_cost[n]:
+                path_cost[n] = total_cost
+                heapq.heappush(priority_queue, (total_cost + heuristic[n], total_cost, n))
+                path[n] = current_node
 
     return None
 
