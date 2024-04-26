@@ -1,30 +1,47 @@
-def dfs(graph, start, goal, max_depth, depth=0, visited=None, path=None):
+def dfs(graph, start, goal, max_depth, depth=0, visited=None, path=None, open_list=None, closed_list=None):
     if visited is None:
         visited = set()
     if path is None:
         path = []
+    if open_list is None:
+        open_list = []
+    if closed_list is None:
+        closed_list = []
 
     visited.add(start)
+    open_list.append(start)
     path = path + [start]
+
+    print("Iteration", len(open_list) + len(closed_list))
+    print("Current Node:", start)
+    print("Open List:", open_list)
+    print("Closed List:", closed_list)
 
     if start == goal:
         return path
 
     if depth >= max_depth:
+        open_list.remove(start)
+        closed_list.append(start)
         return None
 
     for neighbor in graph[start]:
         if neighbor not in visited:
-            new_path = dfs(graph, neighbor, goal, max_depth, depth + 1, visited, path)
+            new_path = dfs(graph, neighbor, goal, max_depth, depth + 1, visited, path, open_list, closed_list)
             if new_path:
                 return new_path
+
+    open_list.remove(start)
+    closed_list.append(start)
 
     return None
 
 def dfid(graph, start, goal):
     depth = 0
     while True:
-        result = dfs(graph, start, goal, depth)
+        open_list = []
+        closed_list = []
+        result = dfs(graph, start, goal, depth, open_list=open_list, closed_list=closed_list)
         if result is not None:
             return result
         depth += 1
@@ -39,16 +56,16 @@ def dfid(graph, start, goal):
 #     'F': []
 # }
 
-#FOR TREE
+# FOR TREE
 graph = {
-    'A': ['B', 'C','D'],
+    'A': ['B', 'C', 'D'],
     'B': ['E', 'F'],
-    'C': ['G','H'],
-    'D':[],
-    'E':[],
-    'F':[],
-    'G':[],
-    'H':[]
+    'C': ['G', 'H'],
+    'D': [],
+    'E': [],
+    'F': [],
+    'G': [],
+    'H': []
 }
 
 start_node = input("Enter the start node: ").strip().upper()
